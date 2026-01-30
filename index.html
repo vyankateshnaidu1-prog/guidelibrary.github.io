@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surgical Guide Protocol | GHRCE Research</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+    
+    <style>
+        /* --- 1. CORE STYLING --- */
+        :root {
+            --ghrce-blue: #003366;
+            --ghrce-dark: #002244;
+            --ghrce-gold: #c5a017;
+            --light-bg: #f4f7f6;
+            --white: #ffffff;
+            --text: #333333;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-bg);
+            color: var(--text);
+            padding-top: 60px; /* Space for sticky header */
+        }
+
+        /* --- 2. STICKY HEADER (Navigation) --- */
+        header {
+            background-color: var(--ghrce-blue);
+            color: var(--white);
+            padding: 0;
+            position: fixed; /* Sticks to top */
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            height: 60px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-text h1 { margin: 0; font-size: 1.1rem; font-weight: 700; letter-spacing: 0.5px; }
+        .logo-text span { font-size: 0.8rem; opacity: 0.8; font-weight: 300; }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--ghrce-gold); }
+
+        /* --- 3. HERO SECTION (Project Title) --- */
+        .hero {
+            /* Uses your custom image */
+            background: linear-gradient(rgba(0,51,102,0.9), rgba(0,51,102,0.9)), url('my-back-banner.png');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .hero h2 { 
+            font-size: 1.8rem; 
+            margin-bottom: 10px; 
+            max-width: 900px; 
+            margin-left: auto; 
+            margin-right: auto;
+            line-height: 1.4;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .hero p { font-size: 1.1rem; color: #ccc; margin-top: 10px; }
+
+        /* --- 4. CARDS --- */
+        .card-container {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            margin-top: -30px;
+            padding: 0 20px 40px 20px;
+        }
+        .card {
+            background: white;
+            width: 320px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            border-top: 5px solid var(--ghrce-blue);
+        }
+        .card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
+        
+        .card-img {
+            height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+        .bg-pilot { background: #3498db; }
+        .bg-sleeve { background: #2c3e50; }
+        .bg-slot { background: #8e44ad; }
+
+        .card-body { padding: 25px; text-align: center; }
+        .card-body h3 { margin: 0 0 10px 0; color: var(--ghrce-blue); }
+        .card-body p { margin: 0; color: #666; font-size: 0.95rem; }
+
+        /* --- 5. SOP SECTION --- */
+        .sop-section {
+            background: white;
+            padding: 50px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; }
+        
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .step-item {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid var(--ghrce-gold);
+        }
+        .step-item h4 { margin: 0 0 10px 0; color: var(--ghrce-blue); }
+
+        /* --- 6. LIBRARY SEARCH --- */
+        .library-section { padding: 60px 0; }
+        
+        .search-box {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid #e0e0e0;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+        .form-group label { display: block; font-weight: 700; margin-bottom: 8px; color: var(--ghrce-blue); font-size: 0.9rem; }
+        .form-group select { 
+            width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 6px; 
+            font-size: 1rem; transition: border-color 0.3s; outline: none;
+        }
+        .form-group select:focus { border-color: var(--ghrce-blue); }
+
+        .btn-main {
+            background-color: var(--ghrce-blue);
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+            display: block;
+        }
+        .btn-main:hover { background-color: var(--ghrce-dark); }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--ghrce-blue);
+            border: 2px solid var(--ghrce-blue);
+            margin-top: 10px;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        /* Result Area */
+        #result-display {
+            display: none;
+            margin-top: 30px;
+            padding: 25px;
+            background: #e8f5e9;
+            border: 1px solid #c8e6c9;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .file-name { font-family: monospace; font-size: 1.2rem; font-weight: bold; color: #2e7d32; display: block; margin: 10px 0; }
+
+        /* --- 7. FOOTER --- */
+        footer {
+            background: #1a1a1a;
+            color: #bbb;
+            padding: 50px 0 20px 0;
+            font-size: 0.9rem;
+        }
+        .footer-grid h4 { color: white; margin-bottom: 15px; }
+        .footer-bottom { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #333; }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <div class="logo-text">
+                <h1>G.H. RAISONI COLLEGE</h1>
+                <span>Mechanical Engineering Dept.</span>
+            </div>
+            <div class="nav-links">
+                <a href="#"><i class="fas fa-home"></i> Home</a>
+                <a href="#library"><i class="fas fa-database"></i> Library</a>
+                <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="hero">
+        <div class="container">
+            <h2>DEVELOPMENT OF A PROTOCOL FOR FABRICATION OF CUSTOM IMPLANTS FOR REPLACEMENT OF SINGLE NON-RESTORABLE TOOTH</h2>
+            <p>Mechanical Engineering Department, G H Raisoni College of Engineering, Nagpur</p>
+        </div>
+    </div>
+
+    <div class="card-container">
+        <div class="card" onclick="selectGuide('Pilot')">
+            <div class="card-img bg-pilot"><i class="fas fa-bullseye"></i></div>
+            <div class="card-body">
+                <h3>Pilot Drill Guide</h3>
+                <p>Initial osteotomy guidance.</p>
+            </div>
+        </div>
+        <div class="card" onclick="selectGuide('Sleeve')">
+            <div class="card-img bg-sleeve"><i class="fas fa-ring"></i></div>
+            <div class="card-body">
+                <h3>Sleeve Based Guide</h3>
+                <p>Standard metal sleeve guidance.</p>
+            </div>
+        </div>
+        <div class="card" onclick="selectGuide('Slot')">
+            <div class="card-img bg-slot"><i class="fas fa-vector-square"></i></div>
+            <div class="card-body">
+                <h3>Slot Based Guide</h3>
+                <p>Lateral entry for limited opening.</p>
+            </div>
+        </div>
+    </div>
+
+    <section class="sop-section">
+        <div class="container">
+            <h2 style="color: var(--ghrce-blue); text-align: center;">How to Use This Protocol</h2>
+            <div class="steps-grid">
+                <div class="step-item">
+                    <h4>Step 1: Download</h4>
+                    <p>Select your guide type, tooth number (FDI), and bone parameters below. Download the <strong>.txt</strong> file.</p>
+                </div>
+                <div class="step-item">
+                    <h4>Step 2: Import</h4>
+                    <p>Import the coordinates into your CAD software (Mimics/SolidWorks) to generate the guide spline curves.</p>
+                </div>
+                <div class="step-item">
+                    <h4>Step 3: Fabricate</h4>
+                    <p>Extrude the surface to 2.5mm thickness and 3D print using biocompatible resin.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="library-section" id="library">
+        <div class="container">
+            <h2 style="color: var(--ghrce-blue); text-align: center; margin-bottom: 30px;">Parameter Selection</h2>
+            
+            <div class="search-box">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>1. Guide System</label>
+                        <select id="guideType">
+                            <option value="Pilot">Pilot Drill Guide</option>
+                            <option value="Sleeve">Sleeve Based Guide</option>
+                            <option value="Slot" selected>Slot Based Guide</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>2. Tooth Number (FDI Notation)</label>
+                        <select id="toothNumber">
+                            <optgroup label="Quadrant 1 (Upper Right)">
+                                <option value="T11">11 - Central Incisor</option>
+                                <option value="T12">12 - Lateral Incisor</option>
+                                <option value="T13">13 - Canine</option>
+                                <option value="T14">14 - 1st Premolar</option>
+                                <option value="T15">15 - 2nd Premolar</option>
+                                <option value="T16">16 - 1st Molar</option>
+                                <option value="T17">17 - 2nd Molar</option>
+                                <option value="T18">18 - 3rd Molar</option>
+                            </optgroup>
+                            <optgroup label="Quadrant 2 (Upper Left)">
+                                <option value="T21" selected>21 - Central Incisor</option>
+                                <option value="T22">22 - Lateral Incisor</option>
+                                <option value="T23">23 - Canine</option>
+                                <option value="T24">24 - 1st Premolar</option>
+                                <option value="T25">25 - 2nd Premolar</option>
+                                <option value="T26">26 - 1st Molar</option>
+                                <option value="T27">27 - 2nd Molar</option>
+                                <option value="T28">28 - 3rd Molar</option>
+                            </optgroup>
+                            <optgroup label="Quadrant 3 (Lower Left)">
+                                <option value="T31">31 - Central Incisor</option>
+                                <option value="T32">32 - Lateral Incisor</option>
+                                <option value="T33">33 - Canine</option>
+                                <option value="T34">34 - 1st Premolar</option>
+                                <option value="T35">35 - 2nd Premolar</option>
+                                <option value="T36">36 - 1st Molar</option>
+                                <option value="T37">37 - 2nd Molar</option>
+                                <option value="T38">38 - 3rd Molar</option>
+                            </optgroup>
+                            <optgroup label="Quadrant 4 (Lower Right)">
+                                <option value="T41">41 - Central Incisor</option>
+                                <option value="T42">42 - Lateral Incisor</option>
+                                <option value="T43">43 - Canine</option>
+                                <option value="T44">44 - 1st Premolar</option>
+                                <option value="T45">45 - 2nd Premolar</option>
+                                <option value="T46">46 - 1st Molar</option>
+                                <option value="T47">47 - 2nd Molar</option>
+                                <option value="T48">48 - 3rd Molar</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>3. Angulation</label>
+                        <select id="angulation">
+                            <option value="TypeA">Type A (0° Straight)</option>
+                            <option value="TypeB">Type B (5°-10° Tilt)</option>
+                            <option value="TypeC">Type C (15°-20° Tilt)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>4. Implant Depth</label>
+                        <select id="depth">
+                            <option value="D1">D1 (Short 8-10mm)</option>
+                            <option value="D2">D2 (Medium 11-13mm)</option>
+                            <option value="D3">D3 (Long 14-16mm)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>5. Implant Width</label>
+                        <select id="width">
+                            <option value="W1">W1 (Narrow 3.0mm)</option>
+                            <option value="W2">W2 (Standard 3.5mm)</option>
+                            <option value="W3">W3 (Wide 4.2mm)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="btn-main" onclick="generateLink()">
+                    <i class="fas fa-download"></i> Locate & Download File
+                </button>
+
+                <div id="result-display">
+                    <h3><i class="fas fa-check-circle" style="color: green;"></i> File Configuration Ready</h3>
+                    <span class="file-name" id="display-filename">...</span>
+                    
+                    <a href="#" id="download-link" class="btn-main" style="width: auto; display: inline-block; background: green; margin-top: 10px;">
+                        Download .txt File
+                    </a>
+
+                    <br><br>
+                    <hr style="border: 0; border-top: 1px solid #ccc;">
+                    
+                    <p style="font-size: 0.9rem; color: #666;">
+                        <strong>Data missing?</strong> If the download fails (404 Error), this configuration is still in processing.
+                    </p>
+                    <a href="#" id="request-link" class="btn-secondary" style="display: inline-block;">
+                        <i class="fas fa-envelope"></i> Request this File
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container footer-grid">
+            <div>
+                <h4>Principal Researcher</h4>
+                <p><strong>Vyankatesh Naidu</strong><br>Research Scholar<br>G H Raisoni College of Engineering</p>
+            </div>
+            <div>
+                <h4>Research Guide</h4>
+                <p><strong>Dr. Santosh Jaju</strong><br>Deputy Director & Dean (R&D)</p>
+            </div>
+            <div>
+                <h4>Address</h4>
+                <p>CRPF Gate No.3, Digdoh Hills,<br>Hingna Road, Nagpur,<br>Maharashtra 440016</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 GHRCE Mechanical Engineering Dept. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script>
+        function selectGuide(type) {
+            document.getElementById('guideType').value = type;
+            document.getElementById('library').scrollIntoView({behavior: "smooth"});
+        }
+
+        function generateLink() {
+            // 1. Get Values
+            var guide = document.getElementById('guideType').value;
+            var tooth = document.getElementById('toothNumber').value;
+            var ang = document.getElementById('angulation').value;
+            var depth = document.getElementById('depth').value;
+            var width = document.getElementById('width').value;
+
+            // 2. Build Filename
+            var filename = guide + "_" + tooth + "_" + ang + "_" + depth + "_" + width + ".txt";
+            
+            // 3. Update Download Link
+            var finalLink = "library/" + filename;
+            var linkBtn = document.getElementById('download-link');
+            linkBtn.href = finalLink;
+            
+            // 4. Update Display Text
+            document.getElementById('display-filename').innerText = filename;
+            
+            // 5. Build "Request Email" Link
+            // PLEASE REPLACE THE EMAIL BELOW WITH YOUR OWN
+            var emailParams = "mailto:REPLACE_WITH_YOUR_EMAIL@gmail.com?subject=Request Data: " + filename + "&body=Hello Vyankatesh,%0D%0A%0D%0AI am looking for the surgical guide parameter file: " + filename + ".%0D%0A%0D%0APlease let me know when this is available.";
+            document.getElementById('request-link').href = emailParams;
+
+            // 6. Show Result Area
+            document.getElementById('result-display').style.display = "block";
+        }
+    </script>
+</body>
+</html>
